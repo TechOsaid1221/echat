@@ -25,9 +25,20 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, var(--primary-blue), #1a3a6c);
             background-attachment: fixed;
-            display: flex; /* Center the cards */
+            display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden; /* Prevent body scroll, handle inside containers */
+        }
+
+        /* Common Glassmorphism Style */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
         }
 
         /* Login Screen */
@@ -36,44 +47,81 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* removed height: 100vh and background since body handles it */
+            position: absolute;
+            z-index: 100;
         }
 
         .login-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
             padding: 2rem;
-            border-radius: 15px;
             width: 100%;
             max-width: 400px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            /* Uses glass-card class in HTML */
         }
 
-        /* Chat Screen - Converted to Card */
-        #chat-screen {
+        /* Wrapper for Chat & Profile */
+        #chat-wrapper {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
             width: 100%;
-            max-width: 450px; /* Card width */
-            height: 85vh; /* Card height */
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Profile Card (Left Side) */
+        #profile-card {
+            width: 300px;
+            height: 60vh; /* Slightly smaller than chat */
             display: flex;
             flex-direction: column;
-            
-            /* Glassmorphism Card Styles */
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .status-badge {
+            background: rgba(40, 167, 69, 0.2);
+            color: #2ecc71;
+            padding: 5px 15px;
             border-radius: 20px;
-            overflow: hidden; /* Clips children to rounded corners */
-            
+            font-size: 0.8rem;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            margin-top: 10px;
+        }
+
+        /* Chat Screen (Right Side) */
+        #chat-screen {
+            width: 100%;
+            max-width: 450px;
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
             position: relative;
-            transition: all 0.3s ease;
         }
 
         /* Header */
         .chat-header {
-            background-color: rgba(10, 25, 47, 0.9); /* Semi-transparent header */
+            background-color: rgba(10, 25, 47, 0.9);
             color: white;
             padding: 15px 20px;
             display: flex;
@@ -97,9 +145,8 @@
             flex: 1;
             overflow-y: auto;
             padding: 20px;
-            background-color: rgba(229, 221, 213, 0.9); /* Slight transparency to hint at blur behind */
-            /* Subtle pattern overlay */
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            background-color: rgba(229, 221, 213, 0.9);
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -135,13 +182,11 @@
         .msg-sender {
             font-size: 0.75rem;
             font-weight: bold;
-            color: #d63384; /* Pinkish color for names */
+            color: #d63384;
             margin-bottom: 2px;
         }
         
-        .message.sent .msg-sender {
-            display: none; /* Don't show my own name */
-        }
+        .message.sent .msg-sender { display: none; }
 
         .msg-time {
             font-size: 0.65rem;
@@ -182,7 +227,7 @@
 
         .emoji-picker {
             position: absolute;
-            bottom: 80px; /* Adjusted for card layout */
+            bottom: 80px;
             left: 20px;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(5px);
@@ -193,13 +238,11 @@
             grid-template-columns: repeat(6, 1fr);
             gap: 5px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            display: none; /* Hidden by default */
+            display: none;
             z-index: 100;
         }
         
-        .emoji-picker.active {
-            display: grid;
-        }
+        .emoji-picker.active { display: grid; }
 
         .emoji-option {
             font-size: 1.5rem;
@@ -231,7 +274,6 @@
         }
         .send-btn:hover { transform: scale(1.05); }
 
-        /* Scrollbar styling */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(187, 187, 187, 0.5); border-radius: 3px; }
@@ -242,7 +284,7 @@
 
     <!-- LOGIN SCREEN -->
     <div id="login-screen">
-        <div class="login-card text-center">
+        <div class="login-card glass-card text-center">
             <div class="mb-4">
                 <i class="fa-brands fa-whatsapp fa-4x mb-3 text-white"></i>
                 <h2 class="fw-bold text-white">EE-F25 CHAT</h2>
@@ -263,50 +305,83 @@
         </div>
     </div>
 
-    <!-- CHAT SCREEN (Hidden initially) -->
-    <div id="chat-screen" class="d-none">
+    <!-- MAIN APP LAYOUT (Hidden initially) -->
+    <div id="chat-wrapper" class="d-none">
         
-        <!-- Header -->
-        <header class="chat-header">
-            <div class="header-title">
-                <i class="fa-solid fa-users"></i>
-                EE-F25 Group
+        <!-- PROFILE CARD (Left Side) -->
+        <div id="profile-card" class="glass-card d-none d-md-flex">
+            <div class="profile-avatar">
+                <i class="fa-solid fa-user"></i>
             </div>
-            <div class="d-flex align-items-center gap-3">
-                <span id="display-user-name" class="small opacity-75"></span>
-                <button id="logout-btn" class="btn btn-sm btn-outline-light border-0">
-                    <i class="fa-solid fa-right-from-bracket"></i>
+            <h3 id="profile-name" class="fw-bold mb-1">User Name</h3>
+            <p class="text-white-50 mb-3 small">Member</p>
+            
+            <div class="status-badge mb-4">
+                <i class="fa-solid fa-circle fa-xs me-1"></i> Online
+            </div>
+
+            <div class="w-100 px-3 text-start">
+                <div class="mb-3">
+                    <label class="small text-white-50 text-uppercase fw-bold">Email</label>
+                    <div class="text-white small">techosaid@gmail.com</div>
+                </div>
+                <div class="mb-3">
+                    <label class="small text-white-50 text-uppercase fw-bold">Role</label>
+                    <div class="text-white small">Frontend Developer</div>
+                </div>
+            </div>
+
+            <div class="mt-auto">
+                <button class="btn btn-outline-light btn-sm rounded-pill px-4" disabled>
+                    <i class="fa-solid fa-gear me-2"></i> Settings
                 </button>
             </div>
-        </header>
+        </div>
 
-        <!-- Messages -->
-        <div id="messages-container">
-            <!-- Messages will be injected here via JS -->
-            <div class="text-center text-muted my-4 small">
-                <i class="fa-solid fa-lock"></i> Messages are end-to-end encrypted (simulated)
+        <!-- CHAT SCREEN (Right Side) -->
+        <div id="chat-screen" class="glass-card">
+            
+            <!-- Header -->
+            <header class="chat-header">
+                <div class="header-title">
+                    <i class="fa-solid fa-users"></i>
+                    EE-F25 Group
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <span id="display-user-name" class="small opacity-75 d-md-none"></span> <!-- Only show name in header on mobile -->
+                    <button id="logout-btn" class="btn btn-sm btn-outline-light border-0" title="Logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Messages -->
+            <div id="messages-container">
+                <div class="text-center text-muted my-4 small">
+                    <i class="fa-solid fa-lock"></i> Messages are end-to-end encrypted (simulated)
+                </div>
             </div>
-        </div>
 
-        <!-- Emoji Picker Panel -->
-        <div class="emoji-picker" id="emoji-picker-panel">
-            <div class="emoji-option">😀</div><div class="emoji-option">😂</div><div class="emoji-option">😍</div>
-            <div class="emoji-option">😎</div><div class="emoji-option">😭</div><div class="emoji-option">😡</div>
-            <div class="emoji-option">👍</div><div class="emoji-option">👎</div><div class="emoji-option">🔥</div>
-            <div class="emoji-option">❤️</div><div class="emoji-option">🎉</div><div class="emoji-option">🤔</div>
-            <div class="emoji-option">👀</div><div class="emoji-option">👋</div><div class="emoji-option">✅</div>
-            <div class="emoji-option">😅</div><div class="emoji-option">🥳</div><div class="emoji-option">🙌</div>
-        </div>
+            <!-- Emoji Picker Panel -->
+            <div class="emoji-picker" id="emoji-picker-panel">
+                <div class="emoji-option">😀</div><div class="emoji-option">😂</div><div class="emoji-option">😍</div>
+                <div class="emoji-option">😎</div><div class="emoji-option">😭</div><div class="emoji-option">😡</div>
+                <div class="emoji-option">👍</div><div class="emoji-option">👎</div><div class="emoji-option">🔥</div>
+                <div class="emoji-option">❤️</div><div class="emoji-option">🎉</div><div class="emoji-option">🤔</div>
+                <div class="emoji-option">👀</div><div class="emoji-option">👋</div><div class="emoji-option">✅</div>
+                <div class="emoji-option">😅</div><div class="emoji-option">🥳</div><div class="emoji-option">🙌</div>
+            </div>
 
-        <!-- Input Area -->
-        <div class="chat-input-area">
-            <button class="emoji-btn" id="emoji-toggle">
-                <i class="fa-regular fa-face-smile"></i>
-            </button>
-            <input type="text" id="message-input" class="form-control rounded-pill" placeholder="Type a message..." autocomplete="off">
-            <button class="send-btn" id="send-btn">
-                <i class="fa-solid fa-paper-plane"></i>
-            </button>
+            <!-- Input Area -->
+            <div class="chat-input-area">
+                <button class="emoji-btn" id="emoji-toggle">
+                    <i class="fa-regular fa-face-smile"></i>
+                </button>
+                <input type="text" id="message-input" class="form-control rounded-pill" placeholder="Type a message..." autocomplete="off">
+                <button class="send-btn" id="send-btn">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -342,12 +417,13 @@
 
         // UI Elements
         const loginScreen = document.getElementById('login-screen');
-        const chatScreen = document.getElementById('chat-screen');
+        const chatWrapper = document.getElementById('chat-wrapper'); // New wrapper
         const loginForm = document.getElementById('login-form');
         const msgContainer = document.getElementById('messages-container');
         const msgInput = document.getElementById('message-input');
         const sendBtn = document.getElementById('send-btn');
         const displayUserName = document.getElementById('display-user-name');
+        const profileName = document.getElementById('profile-name'); // New profile name
         const logoutBtn = document.getElementById('logout-btn');
         const emojiToggle = document.getElementById('emoji-toggle');
         const emojiPicker = document.getElementById('emoji-picker-panel');
@@ -358,12 +434,10 @@
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
-                // Check if we have a stored username for this session
                 const storedName = localStorage.getItem('ee_f25_username');
                 if(storedName) {
                     enterChat(storedName);
                 } else {
-                    // Logged in technically, but no name set yet (maybe fresh reload), show login
                     showLogin();
                 }
             } else {
@@ -386,9 +460,7 @@
             }
 
             try {
-                // Anonymous auth is robust for simple demos without email setup
                 await signInAnonymously(auth);
-                // Save name for this session
                 localStorage.setItem('ee_f25_username', name);
                 enterChat(name);
             } catch (error) {
@@ -407,16 +479,16 @@
         // UI Transitions
         function showLogin() {
             loginScreen.classList.remove('d-none');
-            chatScreen.classList.add('d-none');
+            chatWrapper.classList.add('d-none');
         }
 
         function enterChat(name) {
             currentUsername = name;
             displayUserName.textContent = name;
+            profileName.textContent = name; // Update profile card
             loginScreen.classList.add('d-none');
-            chatScreen.classList.remove('d-none');
+            chatWrapper.classList.remove('d-none');
             loadMessages();
-            // Scroll to bottom
             setTimeout(scrollToBottom, 500);
         }
 
@@ -427,14 +499,12 @@
         function loadMessages() {
             if (unsubscribeMessages) unsubscribeMessages();
 
-            // Rule 2: No complex queries. Fetch all, sort in memory.
             unsubscribeMessages = onSnapshot(MESSAGES_COLLECTION, (snapshot) => {
                 const messages = [];
                 snapshot.forEach(doc => {
                     messages.push({ id: doc.id, ...doc.data() });
                 });
 
-                // Sort by timestamp (Oldest first)
                 messages.sort((a, b) => a.timestamp - b.timestamp);
 
                 renderMessages(messages);
@@ -445,9 +515,8 @@
         }
 
         function renderMessages(messages) {
-            msgContainer.innerHTML = ''; // Clear current
+            msgContainer.innerHTML = ''; 
             
-            // Add encryption notice again
             const notice = document.createElement('div');
             notice.className = 'text-center text-muted my-4 small';
             notice.innerHTML = '<i class="fa-solid fa-lock"></i> Chat started';
@@ -458,11 +527,9 @@
                 const div = document.createElement('div');
                 div.className = `message ${isMine ? 'sent' : 'received'}`;
                 
-                // Format Time
                 const date = new Date(msg.timestamp);
                 const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-                // Delete Button (Only if it's my message)
                 let deleteHtml = '';
                 if (isMine) {
                     deleteHtml = `<span class="delete-btn" data-id="${msg.id}"><i class="fa-solid fa-trash"></i></span>`;
@@ -480,7 +547,6 @@
                 msgContainer.appendChild(div);
             });
 
-            // Attach delete listeners
             document.querySelectorAll('.delete-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const id = e.currentTarget.getAttribute('data-id');
@@ -494,7 +560,6 @@
             if (!text || !currentUser) return;
 
             msgInput.value = '';
-            // Close emoji picker if open
             emojiPicker.classList.remove('active');
 
             try {
@@ -542,7 +607,6 @@
             if (e.key === 'Enter') sendMessage();
         });
 
-        // Emoji Logic
         emojiToggle.addEventListener('click', () => {
             emojiPicker.classList.toggle('active');
         });
@@ -554,7 +618,6 @@
             });
         });
 
-        // Close emoji picker if clicking outside
         document.addEventListener('click', (e) => {
             if (!emojiPicker.contains(e.target) && !emojiToggle.contains(e.target)) {
                 emojiPicker.classList.remove('active');
