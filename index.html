@@ -23,17 +23,20 @@
             height: 100%;
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--primary-blue);
+            background: linear-gradient(135deg, var(--primary-blue), #1a3a6c);
+            background-attachment: fixed;
+            display: flex; /* Center the cards */
+            align-items: center;
+            justify-content: center;
         }
 
         /* Login Screen */
         #login-screen {
-            height: 100vh;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, var(--primary-blue), #1a3a6c);
-            color: white;
+            /* removed height: 100vh and background since body handles it */
         }
 
         .login-card {
@@ -47,27 +50,38 @@
             border: 1px solid rgba(255, 255, 255, 0.18);
         }
 
-        /* Chat Screen */
+        /* Chat Screen - Converted to Card */
         #chat-screen {
-            height: 100vh;
+            width: 100%;
+            max-width: 450px; /* Card width */
+            height: 85vh; /* Card height */
             display: flex;
             flex-direction: column;
-            background-color: #f0f2f5;
-            max-width: 100%;
-            margin: 0 auto;
+            
+            /* Glassmorphism Card Styles */
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden; /* Clips children to rounded corners */
+            
             position: relative;
+            transition: all 0.3s ease;
         }
 
         /* Header */
         .chat-header {
-            background-color: var(--primary-blue);
+            background-color: rgba(10, 25, 47, 0.9); /* Semi-transparent header */
             color: white;
-            padding: 10px 20px;
+            padding: 15px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             z-index: 10;
+            backdrop-filter: blur(5px);
         }
 
         .header-title {
@@ -83,9 +97,9 @@
             flex: 1;
             overflow-y: auto;
             padding: 20px;
-            background-color: var(--chat-bg);
+            background-color: rgba(229, 221, 213, 0.9); /* Slight transparency to hint at blur behind */
             /* Subtle pattern overlay */
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -149,12 +163,12 @@
 
         /* Input Area */
         .chat-input-area {
-            background-color: #f0f0f0;
-            padding: 10px;
+            background-color: rgba(240, 240, 240, 0.95);
+            padding: 15px;
             display: flex;
             align-items: center;
             gap: 10px;
-            border-top: 1px solid #ddd;
+            border-top: 1px solid rgba(0,0,0,0.05);
         }
 
         .emoji-btn {
@@ -168,17 +182,19 @@
 
         .emoji-picker {
             position: absolute;
-            bottom: 70px;
-            left: 10px;
-            background: white;
-            border: 1px solid #ccc;
+            bottom: 80px; /* Adjusted for card layout */
+            left: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0,0,0,0.1);
             border-radius: 8px;
             padding: 10px;
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             gap: 5px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             display: none; /* Hidden by default */
+            z-index: 100;
         }
         
         .emoji-picker.active {
@@ -211,14 +227,15 @@
             justify-content: center;
             cursor: pointer;
             transition: transform 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         .send-btn:hover { transform: scale(1.05); }
 
         /* Scrollbar styling */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #bbb; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #888; }
+        ::-webkit-scrollbar-thumb { background: rgba(187, 187, 187, 0.5); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(136, 136, 136, 0.8); }
     </style>
 </head>
 <body>
@@ -228,18 +245,18 @@
         <div class="login-card text-center">
             <div class="mb-4">
                 <i class="fa-brands fa-whatsapp fa-4x mb-3 text-white"></i>
-                <h2 class="fw-bold">EE-F25 CHAT</h2>
+                <h2 class="fw-bold text-white">EE-F25 CHAT</h2>
                 <p class="text-white-50">Enter your credentials to join</p>
             </div>
             
             <form id="login-form">
                 <div class="mb-3">
-                    <input type="text" id="username-input" class="form-control form-control-lg" placeholder="Your Name" required autocomplete="off">
+                    <input type="text" id="username-input" class="form-control form-control-lg" placeholder="Your Name" required autocomplete="off" style="background: rgba(255,255,255,0.9); border:none;">
                 </div>
                 <div class="mb-4">
-                    <input type="password" id="password-input" class="form-control form-control-lg" placeholder="Password" required>
+                    <input type="password" id="password-input" class="form-control form-control-lg" placeholder="Password" required style="background: rgba(255,255,255,0.9); border:none;">
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold" style="background-color: #0A192F; border: none;">
+                <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold shadow" style="background-color: #0A192F; border: none;">
                     JOIN CHAT
                 </button>
             </form>
@@ -300,7 +317,6 @@
         import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- Configuration ---
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
           apiKey: "AIzaSyCc5XENrJcFfqS7egvvgeHFFrAzas-myvw",
           authDomain: "talim-zia.firebaseapp.com",
@@ -364,8 +380,6 @@
 
             if (!name || !password) return;
 
-            // Simple "visual" password check (any password works for this demo, 
-            // but we enforce the user entering one as requested)
             if (password.length < 1) {
                 alert("Please enter a password.");
                 return;
