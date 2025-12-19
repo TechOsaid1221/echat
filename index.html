@@ -302,14 +302,16 @@
         // --- Configuration ---
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
-          apiKey: "AIzaSyBPA3sdg9c0LuVrlCFOR3amND3DzE1BcF8",
-          authDomain: "typo-158ba.firebaseapp.com",
-          projectId: "typo-158ba",
-          storageBucket: "typo-158ba.firebasestorage.app",
-          messagingSenderId: "143481879290",
-          appId: "1:143481879290:web:76567aa7b8b657617d2743",
-          measurementId: "G-ENRSSXREQ1"
+          apiKey: "AIzaSyCc5XENrJcFfqS7egvvgeHFFrAzas-myvw",
+          authDomain: "talim-zia.firebaseapp.com",
+          databaseURL: "https://talim-zia-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "talim-zia",
+          storageBucket: "talim-zia.firebasestorage.app",
+          messagingSenderId: "1031601706144",
+          appId: "1:1031601706144:web:9f81e6272b51b97aae25c5",
+          measurementId: "G-LBXFS9PB0Q"
         };
+        
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
@@ -377,7 +379,7 @@
                 enterChat(name);
             } catch (error) {
                 console.error("Login Error:", error);
-                alert("Could not join chat. Try again.");
+                alert("Could not join chat. Please check your internet connection.");
             }
         });
 
