@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EE-F25 CHAT</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-blue: #0A192F; /* Deep Dark Blue */
+            --secondary-blue: #112240;
+            --accent-blue: #007bff;
+            --chat-bg: #E5DDD5; /* WhatsApp-ish beige/white */
+            --msg-sent: #dcf8c6;
+            --msg-received: #ffffff;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary-blue);
+        }
+
+        /* Login Screen */
+        #login-screen {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-blue), #1a3a6c);
+            color: white;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        /* Chat Screen */
+        #chat-screen {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f0f2f5;
+            max-width: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Header */
+        .chat-header {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        .header-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Messages Area */
+        #messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: var(--chat-bg);
+            /* Subtle pattern overlay */
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 75%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            word-wrap: break-word;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.sent {
+            background-color: var(--msg-sent);
+            align-self: flex-end;
+            border-top-right-radius: 0;
+        }
+
+        .message.received {
+            background-color: var(--msg-received);
+            align-self: flex-start;
+            border-top-left-radius: 0;
+        }
+
+        .msg-sender {
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #d63384; /* Pinkish color for names */
+            margin-bottom: 2px;
+        }
+        
+        .message.sent .msg-sender {
+            display: none; /* Don't show my own name */
+        }
+
+        .msg-time {
+            font-size: 0.65rem;
+            color: #999;
+            text-align: right;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .delete-btn {
+            font-size: 0.7rem;
+            color: #dc3545;
+            cursor: pointer;
+            margin-left: 8px;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+        .delete-btn:hover { opacity: 1; }
+
+        /* Input Area */
+        .chat-input-area {
+            background-color: #f0f0f0;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .emoji-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #555;
+            padding: 0 5px;
+        }
+
+        .emoji-picker {
+            position: absolute;
+            bottom: 70px;
+            left: 10px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none; /* Hidden by default */
+        }
+        
+        .emoji-picker.active {
+            display: grid;
+        }
+
+        .emoji-option {
+            font-size: 1.5rem;
+            cursor: pointer;
+            text-align: center;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .emoji-option:hover { background-color: #f0f0f0; }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: var(--primary-blue);
+        }
+
+        .send-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .send-btn:hover { transform: scale(1.05); }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #bbb; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #888; }
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen">
+        <div class="login-card text-center">
+            <div class="mb-4">
+                <i class="fa-brands fa-whatsapp fa-4x mb-3 text-white"></i>
+                <h2 class="fw-bold">EE-F25 CHAT</h2>
+                <p class="text-white-50">Enter your credentials to join</p>
+            </div>
+            
+            <form id="login-form">
+                <div class="mb-3">
+                    <input type="text" id="username-input" class="form-control form-control-lg" placeholder="Your Name" required autocomplete="off">
+                </div>
+                <div class="mb-4">
+                    <input type="password" id="password-input" class="form-control form-control-lg" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold" style="background-color: #0A192F; border: none;">
+                    JOIN CHAT
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- CHAT SCREEN (Hidden initially) -->
+    <div id="chat-screen" class="d-none">
+        
+        <!-- Header -->
+        <header class="chat-header">
+            <div class="header-title">
+                <i class="fa-solid fa-users"></i>
+                EE-F25 Group
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <span id="display-user-name" class="small opacity-75"></span>
+                <button id="logout-btn" class="btn btn-sm btn-outline-light border-0">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Messages -->
+        <div id="messages-container">
+            <!-- Messages will be injected here via JS -->
+            <div class="text-center text-muted my-4 small">
+                <i class="fa-solid fa-lock"></i> Messages are end-to-end encrypted (simulated)
+            </div>
+        </div>
+
+        <!-- Emoji Picker Panel -->
+        <div class="emoji-picker" id="emoji-picker-panel">
+            <div class="emoji-option">😀</div><div class="emoji-option">😂</div><div class="emoji-option">😍</div>
+            <div class="emoji-option">😎</div><div class="emoji-option">😭</div><div class="emoji-option">😡</div>
+            <div class="emoji-option">👍</div><div class="emoji-option">👎</div><div class="emoji-option">🔥</div>
+            <div class="emoji-option">❤️</div><div class="emoji-option">🎉</div><div class="emoji-option">🤔</div>
+            <div class="emoji-option">👀</div><div class="emoji-option">👋</div><div class="emoji-option">✅</div>
+            <div class="emoji-option">😅</div><div class="emoji-option">🥳</div><div class="emoji-option">🙌</div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="chat-input-area">
+            <button class="emoji-btn" id="emoji-toggle">
+                <i class="fa-regular fa-face-smile"></i>
+            </button>
+            <input type="text" id="message-input" class="form-control rounded-pill" placeholder="Type a message..." autocomplete="off">
+            <button class="send-btn" id="send-btn">
+                <i class="fa-solid fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Configuration ---
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        
+        // Collection path rule
+        const MESSAGES_COLLECTION = collection(db, 'artifacts', appId, 'public', 'data', 'ee-f25-messages');
+
+        // State
+        let currentUser = null;
+        let currentUsername = "";
+
+        // UI Elements
+        const loginScreen = document.getElementById('login-screen');
+        const chatScreen = document.getElementById('chat-screen');
+        const loginForm = document.getElementById('login-form');
+        const msgContainer = document.getElementById('messages-container');
+        const msgInput = document.getElementById('message-input');
+        const sendBtn = document.getElementById('send-btn');
+        const displayUserName = document.getElementById('display-user-name');
+        const logoutBtn = document.getElementById('logout-btn');
+        const emojiToggle = document.getElementById('emoji-toggle');
+        const emojiPicker = document.getElementById('emoji-picker-panel');
+
+        // --- Authentication ---
+        
+        // Listen for auth state
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                // Check if we have a stored username for this session
+                const storedName = localStorage.getItem('ee_f25_username');
+                if(storedName) {
+                    enterChat(storedName);
+                } else {
+                    // Logged in technically, but no name set yet (maybe fresh reload), show login
+                    showLogin();
+                }
+            } else {
+                currentUser = null;
+                showLogin();
+            }
+        });
+
+        // Handle Login Form Submit
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('username-input').value.trim();
+            const password = document.getElementById('password-input').value.trim();
+
+            if (!name || !password) return;
+
+            // Simple "visual" password check (any password works for this demo, 
+            // but we enforce the user entering one as requested)
+            if (password.length < 1) {
+                alert("Please enter a password.");
+                return;
+            }
+
+            try {
+                // Anonymous auth is robust for simple demos without email setup
+                await signInAnonymously(auth);
+                // Save name for this session
+                localStorage.setItem('ee_f25_username', name);
+                enterChat(name);
+            } catch (error) {
+                console.error("Login Error:", error);
+                alert("Could not join chat. Try again.");
+            }
+        });
+
+        // Handle Logout
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('ee_f25_username');
+            signOut(auth);
+            location.reload();
+        });
+
+        // UI Transitions
+        function showLogin() {
+            loginScreen.classList.remove('d-none');
+            chatScreen.classList.add('d-none');
+        }
+
+        function enterChat(name) {
+            currentUsername = name;
+            displayUserName.textContent = name;
+            loginScreen.classList.add('d-none');
+            chatScreen.classList.remove('d-none');
+            loadMessages();
+            // Scroll to bottom
+            setTimeout(scrollToBottom, 500);
+        }
+
+        // --- Messaging Logic ---
+
+        let unsubscribeMessages = null;
+
+        function loadMessages() {
+            if (unsubscribeMessages) unsubscribeMessages();
+
+            // Rule 2: No complex queries. Fetch all, sort in memory.
+            unsubscribeMessages = onSnapshot(MESSAGES_COLLECTION, (snapshot) => {
+                const messages = [];
+                snapshot.forEach(doc => {
+                    messages.push({ id: doc.id, ...doc.data() });
+                });
+
+                // Sort by timestamp (Oldest first)
+                messages.sort((a, b) => a.timestamp - b.timestamp);
+
+                renderMessages(messages);
+                scrollToBottom();
+            }, (error) => {
+                console.error("Error fetching messages:", error);
+            });
+        }
+
+        function renderMessages(messages) {
+            msgContainer.innerHTML = ''; // Clear current
+            
+            // Add encryption notice again
+            const notice = document.createElement('div');
+            notice.className = 'text-center text-muted my-4 small';
+            notice.innerHTML = '<i class="fa-solid fa-lock"></i> Chat started';
+            msgContainer.appendChild(notice);
+
+            messages.forEach(msg => {
+                const isMine = msg.senderId === currentUser.uid;
+                const div = document.createElement('div');
+                div.className = `message ${isMine ? 'sent' : 'received'}`;
+                
+                // Format Time
+                const date = new Date(msg.timestamp);
+                const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                // Delete Button (Only if it's my message)
+                let deleteHtml = '';
+                if (isMine) {
+                    deleteHtml = `<span class="delete-btn" data-id="${msg.id}"><i class="fa-solid fa-trash"></i></span>`;
+                }
+
+                div.innerHTML = `
+                    <div class="msg-sender">${escapeHtml(msg.senderName)}</div>
+                    <div>${escapeHtml(msg.text)}</div>
+                    <div class="d-flex justify-content-end align-items-center">
+                        <span class="msg-time">${timeStr}</span>
+                        ${deleteHtml}
+                    </div>
+                `;
+
+                msgContainer.appendChild(div);
+            });
+
+            // Attach delete listeners
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = e.currentTarget.getAttribute('data-id');
+                    deleteMessage(id);
+                });
+            });
+        }
+
+        async function sendMessage() {
+            const text = msgInput.value.trim();
+            if (!text || !currentUser) return;
+
+            msgInput.value = '';
+            // Close emoji picker if open
+            emojiPicker.classList.remove('active');
+
+            try {
+                await addDoc(MESSAGES_COLLECTION, {
+                    text: text,
+                    senderName: currentUsername,
+                    senderId: currentUser.uid,
+                    timestamp: Date.now()
+                });
+                scrollToBottom();
+            } catch (error) {
+                console.error("Send error:", error);
+            }
+        }
+
+        async function deleteMessage(docId) {
+            if(confirm("Delete this message?")) {
+                try {
+                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'ee-f25-messages', docId));
+                } catch (err) {
+                    console.error("Delete error", err);
+                }
+            }
+        }
+
+        function scrollToBottom() {
+            msgContainer.scrollTop = msgContainer.scrollHeight;
+        }
+
+        function escapeHtml(text) {
+            if (!text) return "";
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // --- Event Listeners ---
+
+        sendBtn.addEventListener('click', sendMessage);
+        
+        msgInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Emoji Logic
+        emojiToggle.addEventListener('click', () => {
+            emojiPicker.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.emoji-option').forEach(opt => {
+            opt.addEventListener('click', (e) => {
+                msgInput.value += e.target.innerText;
+                msgInput.focus();
+            });
+        });
+
+        // Close emoji picker if clicking outside
+        document.addEventListener('click', (e) => {
+            if (!emojiPicker.contains(e.target) && !emojiToggle.contains(e.target)) {
+                emojiPicker.classList.remove('active');
+            }
+        });
+
+    </script>
+</body>
+</html>
