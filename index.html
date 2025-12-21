@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EE-F25 CHAT</title>
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -28,7 +26,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden; /* Prevent body scroll, handle inside containers */
+            overflow: hidden; 
         }
 
         /* Common Glassmorphism Style */
@@ -55,64 +53,25 @@
             padding: 2rem;
             width: 100%;
             max-width: 400px;
-            /* Uses glass-card class in HTML */
         }
 
-        /* Wrapper for Chat & Profile */
+        /* Wrapper for Chat */
         #chat-wrapper {
             display: flex;
-            gap: 20px;
             align-items: center;
             justify-content: center;
             width: 100%;
             height: 100%;
-            padding: 20px;
+            padding: 20px; /* Provides the distance from the border */
             box-sizing: border-box;
             transition: opacity 0.3s ease;
-        }
-
-        /* Profile Card (Left Side) */
-        #profile-card {
-            width: 300px;
-            height: 60vh; /* Slightly smaller than chat */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .profile-avatar {
-            width: 100px;
-            height: 100px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            margin-bottom: 15px;
-            border: 2px solid rgba(255,255,255,0.2);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .status-badge {
-            background: rgba(40, 167, 69, 0.2);
-            color: #2ecc71;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            border: 1px solid rgba(46, 204, 113, 0.3);
-            margin-top: 10px;
         }
 
         /* Chat Screen (Right Side) */
         #chat-screen {
             width: 100%;
-            max-width: 450px;
-            height: 85vh;
+            /* Removed max-width to let it fill the screen */
+            height: 100%; /* Fill the wrapper height (minus padding) */
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -146,7 +105,7 @@
             overflow-y: auto;
             padding: 20px;
             background-color: rgba(229, 221, 213, 0.9);
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 1.79 4 4 1.79 4 4 1.79 4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -282,7 +241,6 @@
 </head>
 <body>
 
-    <!-- LOGIN SCREEN -->
     <div id="login-screen">
         <div class="login-card glass-card text-center">
             <div class="mb-4">
@@ -305,64 +263,29 @@
         </div>
     </div>
 
-    <!-- MAIN APP LAYOUT (Hidden initially) -->
     <div id="chat-wrapper" class="d-none">
         
-        <!-- PROFILE CARD (Left Side) -->
-        <div id="profile-card" class="glass-card d-none d-md-flex">
-            <div class="profile-avatar">
-                <i class="fa-solid fa-user"></i>
-            </div>
-            <h3 id="profile-name" class="fw-bold mb-1">User Name</h3>
-            <p class="text-white-50 mb-3 small">Member</p>
-            
-            <div class="status-badge mb-4">
-                <i class="fa-solid fa-circle fa-xs me-1"></i> Online
-            </div>
-
-            <div class="w-100 px-3 text-start">
-                <div class="mb-3">
-                    <label class="small text-white-50 text-uppercase fw-bold">Email</label>
-                    <div class="text-white small">techosaid@gmail.com</div>
-                </div>
-                <div class="mb-3">
-                    <label class="small text-white-50 text-uppercase fw-bold">Role</label>
-                    <div class="text-white small">Frontend Developer</div>
-                </div>
-            </div>
-
-            <div class="mt-auto">
-                <button class="btn btn-outline-light btn-sm rounded-pill px-4" disabled>
-                    <i class="fa-solid fa-gear me-2"></i> Settings
-                </button>
-            </div>
-        </div>
-
-        <!-- CHAT SCREEN (Right Side) -->
         <div id="chat-screen" class="glass-card">
             
-            <!-- Header -->
             <header class="chat-header">
                 <div class="header-title">
                     <i class="fa-solid fa-users"></i>
                     EE-F25 Group
                 </div>
                 <div class="d-flex align-items-center gap-3">
-                    <span id="display-user-name" class="small opacity-75 d-md-none"></span> <!-- Only show name in header on mobile -->
+                    <span id="display-user-name" class="small opacity-75"></span>
                     <button id="logout-btn" class="btn btn-sm btn-outline-light border-0" title="Logout">
                         <i class="fa-solid fa-right-from-bracket"></i>
                     </button>
                 </div>
             </header>
 
-            <!-- Messages -->
             <div id="messages-container">
                 <div class="text-center text-muted my-4 small">
                     <i class="fa-solid fa-lock"></i> Messages are end-to-end encrypted (simulated)
                 </div>
             </div>
 
-            <!-- Emoji Picker Panel -->
             <div class="emoji-picker" id="emoji-picker-panel">
                 <div class="emoji-option">😀</div><div class="emoji-option">😂</div><div class="emoji-option">😍</div>
                 <div class="emoji-option">😎</div><div class="emoji-option">😭</div><div class="emoji-option">😡</div>
@@ -372,7 +295,6 @@
                 <div class="emoji-option">😅</div><div class="emoji-option">🥳</div><div class="emoji-option">🙌</div>
             </div>
 
-            <!-- Input Area -->
             <div class="chat-input-area">
                 <button class="emoji-btn" id="emoji-toggle">
                     <i class="fa-regular fa-face-smile"></i>
@@ -385,7 +307,6 @@
         </div>
     </div>
 
-    <!-- Firebase Scripts -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -423,7 +344,7 @@
         const msgInput = document.getElementById('message-input');
         const sendBtn = document.getElementById('send-btn');
         const displayUserName = document.getElementById('display-user-name');
-        const profileName = document.getElementById('profile-name'); // New profile name
+        // REMOVED: const profileName = document.getElementById('profile-name');
         const logoutBtn = document.getElementById('logout-btn');
         const emojiToggle = document.getElementById('emoji-toggle');
         const emojiPicker = document.getElementById('emoji-picker-panel');
@@ -485,7 +406,7 @@
         function enterChat(name) {
             currentUsername = name;
             displayUserName.textContent = name;
-            profileName.textContent = name; // Update profile card
+            // REMOVED: profileName.textContent = name; 
             loginScreen.classList.add('d-none');
             chatWrapper.classList.remove('d-none');
             loadMessages();
